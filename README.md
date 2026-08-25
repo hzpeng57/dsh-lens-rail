@@ -86,41 +86,6 @@ Remove the `- insert: { id: dsh-lens-rail, ... }` block from
 `$DSH_HOME/profiles/web/cordis.patch.yml` and drop the dependency from
 `package.json`, then restart `dsh web`.
 
-## Develop
-
-```bash
-npm install --cache /tmp/npmcache-lens
-npm run typecheck   # tsc --noEmit
-npm run build       # tsdown -> lib/index.mjs + lib/client.js
-npm run watch       # rebuild on change
-```
-
-## Release
-
-Publishing is manual. To cut a release:
-
-```bash
-npm login                 # once
-npm version patch         # or minor / major — bumps version + commits + tags
-npm publish               # runs prepublishOnly (typecheck + build) first
-git push origin main --follow-tags
-```
-
-Users update with:
-
-```bash
-dsh plugin --profile web add @hzpeng/dsh-lens-rail@latest
-```
-
-## Layout
-
-```
-src/index.ts             host half (registers the chatRail projection)
-src/client/index.tsx     client half (the LensRail component)
-tsdown.config.ts         host ESM + client ModuleLoader CJS bundle
-cordis.patch.yml         the bundle patch (loader insert)
-```
-
 ## License
 
 MIT
