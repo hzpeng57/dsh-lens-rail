@@ -1,5 +1,7 @@
 # @hzpeng/dsh-lens-rail
 
+[English](README.md) · [简体中文](README.zh-CN.md)
+
 为 DeepSeek Harness（DSH）Web 对话界面提供的 **Codex 风格左侧消息导航轨道**。
 
 在对话记录**左侧**边缘，有一列短横线——每一条横线代表一轮对话（包含你的提问和 agent 的回复）。它是一个 scroll-spy 定位器：当前阅读位置对应的横线以品牌色高亮；鼠标悬停时，光标下的横线变长、上下相邻的横线向两端平滑渐短（Codex 的「镜头」效果）；点击任意横线可跳转到对应消息（必要时自动加载更早的历史）。

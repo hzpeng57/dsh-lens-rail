@@ -1,5 +1,7 @@
 # @hzpeng/dsh-lens-rail
 
+[English](README.md) · [简体中文](README.zh-CN.md)
+
 A Codex-style **LEFT** message navigation rail for the DeepSeek Harness (DSH) Web
 conversation column.
 
