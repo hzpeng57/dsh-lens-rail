@@ -89,19 +89,35 @@ Remove the `- insert: { id: dsh-lens-rail, ... }` block from
 ## Develop
 
 ```bash
-pnpm install       # or: npm install --cache /tmp/npmcache-lens
-pnpm typecheck     # tsc --noEmit
-pnpm build         # tsdown -> lib/index.mjs + lib/client.js
-pnpm watch         # rebuild on change
+npm install --cache /tmp/npmcache-lens
+npm run typecheck   # tsc --noEmit
+npm run build       # tsdown -> lib/index.mjs + lib/client.js
+npm run watch       # rebuild on change
 ```
+
+## Release
+
+Publishing is automated via GitHub Actions: push a `v*` tag and the workflow
+builds + publishes to npm. To cut a release:
+
+```bash
+npm version patch   # or minor / major — bumps version + commits + tags
+git push origin main --follow-tags
+```
+
+The `publish` workflow runs on every `v*` tag push. It needs one repository
+secret:
+
+- `NPM_TOKEN` — an npm Automation/access token (`npm token create`).
 
 ## Layout
 
 ```
-src/index.ts             host half (empty apply; registers the loader entry)
+src/index.ts             host half (registers the chatRail projection)
 src/client/index.tsx     client half (the LensRail component)
 tsdown.config.ts         host ESM + client ModuleLoader CJS bundle
 cordis.patch.yml         the bundle patch (loader insert)
+.github/workflows/release.yml   npm publish on v* tags
 ```
 
 ## License
