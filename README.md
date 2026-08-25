@@ -5,7 +5,7 @@
 A Codex-style **LEFT** message navigation rail for the DeepSeek Harness (DSH) Web
 conversation column.
 
-![Screenshot](docs/shots/rail.png)
+![Screenshot](docs/shots/rail.gif)
 
 A vertical column of short horizontal lines runs down the **left** edge of the
 transcript — one line per message, including both your turns **and** the agent's
