@@ -1,6 +1,6 @@
 {
   "name": "@hzpeng/dsh-lens-rail",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codex-style LEFT message navigation rail for DeepSeek Harness: a vertical column of short lines, one per message (user + assistant), with a linear lens hover effect, scroll-spy highlight, and click-to-jump.",
   "type": "module",
   "main": "lib/index.mjs",
