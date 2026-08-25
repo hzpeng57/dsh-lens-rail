@@ -21,17 +21,17 @@
 
 ## 安装
 
-插件通过 `cordis.patch.yml` 的 insert 挂载，并从 profile 依赖树解析。
-
 ```bash
 dsh plugin --profile web add @hzpeng/dsh-lens-rail
 ```
 
-重启 `dsh web` 并硬刷新浏览器。客户端 bundle 由 `/plugins/@hzpeng/dsh-lens-rail/client.js` 运行时下发，无需重建 DSH Web 产物——只需重启进程以加载新的 loader 条目。
+然后重启 `dsh web` 并硬刷新浏览器。
 
 ## 卸载
 
-从 `$DSH_HOME/profiles/web/cordis.patch.yml` 移除 `- insert: { id: dsh-lens-rail, ... }` 块，并从 `package.json` 移除对应依赖，然后重启 `dsh web`。
+```bash
+dsh plugin --profile web remove @hzpeng/dsh-lens-rail
+```
 
 ## License
 

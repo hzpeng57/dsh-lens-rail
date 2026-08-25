@@ -34,36 +34,17 @@ older history when necessary).
 
 ## Install
 
-The plugin mounts through a `cordis.patch.yml` insert and must resolve from the
-profile's dependency tree (`$DSH_HOME/profiles/node_modules`).
-
-```bash
-# from the plugin directory, add it to your web profile's dependencies
-# $DSH_HOME/profiles/web/package.json
-#   "dependencies": { "@hzpeng/dsh-lens-rail": "file:../../workspace/dsh-lens-rail" }
-
-# then mount it
-# $DSH_HOME/profiles/web/cordis.patch.yml
-#   - insert:
-#       - id: dsh-lens-rail
-#         name: '@hzpeng/dsh-lens-rail'
-```
-
-Restart `dsh web` and hard-refresh the browser. The client bundle is served
-runtime from `/plugins/dsh-lens-rail/client.js`, so no rebuild of the DSH web
-shell is needed — only a process restart to pick up the new loader entry.
-
-Alternatively use the built-in installer:
-
 ```bash
 dsh plugin --profile web add @hzpeng/dsh-lens-rail
 ```
 
+Then restart `dsh web` and hard-refresh the browser.
+
 ## Uninstall
 
-Remove the `- insert: { id: dsh-lens-rail, ... }` block from
-`$DSH_HOME/profiles/web/cordis.patch.yml` and drop the dependency from
-`package.json`, then restart `dsh web`.
+```bash
+dsh plugin --profile web remove @hzpeng/dsh-lens-rail
+```
 
 ## License
 
