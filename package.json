@@ -6,11 +6,11 @@
   "main": "lib/index.mjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huangzhenpeng/dsh-lens-rail.git"
+    "url": "git+https://github.com/hzpeng57/dsh-lens-rail.git"
   },
-  "homepage": "https://github.com/huangzhenpeng/dsh-lens-rail#readme",
+  "homepage": "https://github.com/hzpeng57/dsh-lens-rail#readme",
   "bugs": {
-    "url": "https://github.com/huangzhenpeng/dsh-lens-rail/issues"
+    "url": "https://github.com/hzpeng57/dsh-lens-rail/issues"
   },
   "publishConfig": {
     "access": "public"
