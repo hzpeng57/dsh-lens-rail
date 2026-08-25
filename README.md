@@ -1,0 +1,109 @@
+# @hzpeng/dsh-lens-rail
+
+A Codex-style **LEFT** message navigation rail for the DeepSeek Harness (DSH) Web
+conversation column.
+
+A vertical column of short horizontal lines runs down the **left** edge of the
+transcript — one line per message, including both your turns **and** the agent's
+replies. It is a scroll-spy scrubber: the line under your current reading
+position is highlighted in the brand colour, hovering grows the line under the
+cursor while its neighbours taper smoothly toward the edges (the Codex "lens"
+effect), and clicking any line jumps the transcript to that message (paging
+older history when necessary).
+
+> Unlike `@max-null/dsh-chat-rail` (a right-side rail that expands into a
+> titled/numbered panel on hover), this rail always stays a clean column of
+> short lines and anchors to the **left** edge, matching the Codex (ChatGPT) app
+> interaction.
+
+## Features
+
+- **Left edge** placement — `left: calc(var(--dsh-sidebar-width) + 4px)`, so it
+  sits beside the conversation column and never overlaps the app sidebar.
+- **One line per message** — both user turns (`user` nodes) and agent replies
+  (`assistant` nodes) get a line; tool rows, commands, and turn-tails are
+  skipped so the rail reads as a conversation, not a step ledger.
+- **Lens hover** — the focused line is longest; neighbours taper off with a
+  gaussian profile (`width = base + amp * exp(-d²/2σ²)`), exactly the Codex
+  effect.
+- **Scroll-spy highlight** — the line nearest the 40% viewport line is active
+  (brand colour + glow) and follows your reading position.
+- **Click to jump** — `loadOlder` pages older history on demand, then scrolls
+  the target row into view; shows a small spinner while a long jump loads.
+- **Theme-aware** — uses DSH alias tokens (`--dsw-alias-*`) so light and dark
+  themes both look right.
+
+## How it works
+
+This is a pure **client** plugin. The host half is an intentionally empty
+`apply` — it exists only so the Loader registers the entry and the
+`client-modules` scanner discovers the `dsh.client` declaration + `./client`
+bundle.
+
+The client half reads data directly from the session snapshot's chat nodes.
+Every chat node carries a `.key` equal to the `data-chat-anchor-key` the chat
+view stamps on its DOM row, so that same key drives all three concerns:
+
+- **scroll-spy** — scan `[data-conversation-scroll]` rows for the one nearest
+  the reading line;
+- **hover hit** — each line is a `<button>` with `data-lens-index`;
+- **click-to-jump** — `jumpToMessage` loops `loadOlder()` until the target node
+  exists, then polls for its DOM row and `scrollIntoView`s it.
+
+No host projection, no session-log fold, no model-visible context, no tool
+registered.
+
+## Install
+
+The plugin mounts through a `cordis.patch.yml` insert and must resolve from the
+profile's dependency tree (`$DSH_HOME/profiles/node_modules`).
+
+```bash
+# from the plugin directory, add it to your web profile's dependencies
+# $DSH_HOME/profiles/web/package.json
+#   "dependencies": { "@hzpeng/dsh-lens-rail": "file:../../workspace/dsh-lens-rail" }
+
+# then mount it
+# $DSH_HOME/profiles/web/cordis.patch.yml
+#   - insert:
+#       - id: dsh-lens-rail
+#         name: '@hzpeng/dsh-lens-rail'
+```
+
+Restart `dsh web` and hard-refresh the browser. The client bundle is served
+runtime from `/plugins/dsh-lens-rail/client.js`, so no rebuild of the DSH web
+shell is needed — only a process restart to pick up the new loader entry.
+
+Alternatively use the built-in installer:
+
+```bash
+dsh plugin --profile web add @hzpeng/dsh-lens-rail
+```
+
+## Uninstall
+
+Remove the `- insert: { id: dsh-lens-rail, ... }` block from
+`$DSH_HOME/profiles/web/cordis.patch.yml` and drop the dependency from
+`package.json`, then restart `dsh web`.
+
+## Develop
+
+```bash
+pnpm install       # or: npm install --cache /tmp/npmcache-lens
+pnpm typecheck     # tsc --noEmit
+pnpm build         # tsdown -> lib/index.mjs + lib/client.js
+pnpm watch         # rebuild on change
+```
+
+## Layout
+
+```
+src/index.ts             host half (empty apply; registers the loader entry)
+src/client/index.tsx     client half (the LensRail component)
+tsdown.config.ts         host ESM + client ModuleLoader CJS bundle
+cordis.patch.yml         the bundle patch (loader insert)
+```
+
+## License
+
+MIT

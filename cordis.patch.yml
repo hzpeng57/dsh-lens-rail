@@ -1,0 +1,7 @@
+# @hzpeng/dsh-lens-rail bundle patch: one insert over the profile root.
+# The host half is an empty apply (the rail reads its data entirely from the
+# client session snapshot); it exists so the loader registers this entry and
+# client-modules discovers the `dsh.client` declaration + ./client bundle.
+- insert:
+    - id: dsh-lens-rail
+      name: '@hzpeng/dsh-lens-rail'
