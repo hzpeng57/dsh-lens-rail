@@ -97,18 +97,20 @@ npm run watch       # rebuild on change
 
 ## Release
 
-Publishing is automated via GitHub Actions: push a `v*` tag and the workflow
-builds + publishes to npm. To cut a release:
+Publishing is manual. To cut a release:
 
 ```bash
-npm version patch   # or minor / major — bumps version + commits + tags
+npm login                 # once
+npm version patch         # or minor / major — bumps version + commits + tags
+npm publish               # runs prepublishOnly (typecheck + build) first
 git push origin main --follow-tags
 ```
 
-The `publish` workflow runs on every `v*` tag push. It needs one repository
-secret:
+Users update with:
 
-- `NPM_TOKEN` — an npm Automation/access token (`npm token create`).
+```bash
+dsh plugin --profile web add @hzpeng/dsh-lens-rail@latest
+```
 
 ## Layout
 
@@ -117,7 +119,6 @@ src/index.ts             host half (registers the chatRail projection)
 src/client/index.tsx     client half (the LensRail component)
 tsdown.config.ts         host ESM + client ModuleLoader CJS bundle
 cordis.patch.yml         the bundle patch (loader insert)
-.github/workflows/release.yml   npm publish on v* tags
 ```
 
 ## License
